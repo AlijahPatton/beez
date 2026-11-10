@@ -334,10 +334,10 @@ fb.then(f=>{
  window.DASH_ON=!!u;
  if(u){const ref=f.D.ref(f.db,"users/"+u.uid);let ready=false;
   window.pushUser=()=>{if(!ready)return;f.D.set(ref,{s:{g:stats.g,w:stats.w,b:stats.b,c:stats.c,m:stats.m,a:stats.a,bw:stats.bw},hist:stats.hist}).catch(()=>{})};
-  f.D.get(ref).then(sn=>{const v=sn.val();if(v&&v.s&&(v.s.g||0)>=stats.g){Object.assign(stats,v.s);stats.hist=v.hist||[];stats.h=stats.hist.map(x=>({p:x.p,ok:x.ok,n:x.n,d:x.d})).sort((a,b)=>b.p-a.p).slice(0,5)}}).catch(()=>{}).finally(()=>{ready=true;saveStats()})}
+  f.D.get(ref).then(sn=>{const v=sn.val();if(v&&v.s&&(v.s.g||0)>=stats.g){Object.assign(stats,v.s);stats.hist=v.hist||[];stats.h=stats.hist.map(x=>({p:x.p,ok:x.ok,n:x.n,d:x.d})).sort((a,b)=>b.p-a.p).slice(0,5)}}).catch(()=>{}).finally(()=>{ready=true;saveStats();let go=false;try{go=sessionStorage.getItem("beez_dash");sessionStorage.removeItem("beez_dash")}catch(x){}if(go)setTimeout(()=>{const d=$("#dash");d.classList.add("in");d.scrollIntoView({behavior:"smooth"})},150)})}
  if(u){const n=(u.displayName||(u.email||"bee").split("@")[0]).slice(0,14);P.name=n;$("#nm").value=n;btn.textContent="sign out"}
  btn.onclick=()=>{if(u)f.Au.signOut(f.auth).then(()=>location.reload());else $("#adlg").showModal()};
- const run=p=>{if(!f){err.textContent="firebase isn’t set up yet. paste your config at the top of the script.";return}err.textContent="";p().then(()=>location.reload()).catch(e=>err.textContent=e.code==="auth/unauthorized-domain"?"unauthorized domain. add this exact host in firebase authorized domains: "+location.hostname:(e.code||"error").replace("auth/","").replace(/-/g," "))};
+ const run=p=>{if(!f){err.textContent="firebase isn’t set up yet. paste your config at the top of the script.";return}err.textContent="";try{sessionStorage.setItem("beez_dash","1")}catch(x){}p().then(()=>location.reload()).catch(e=>{try{sessionStorage.removeItem("beez_dash")}catch(x){}err.textContent=e.code==="auth/unauthorized-domain"?"unauthorized domain. add this exact host in firebase authorized domains: "+location.hostname:(e.code||"error").replace("auth/","").replace(/-/g," ")})};
  const cred=()=>[f.auth,$("#aem").value.trim(),$("#apw").value];
  $("#agg").onclick=()=>run(()=>{const g=new f.Au.GoogleAuthProvider();return f.Au.signInWithPopup(f.auth,g).catch(e=>["auth/popup-blocked","auth/operation-not-supported-in-this-environment"].includes(e.code)?f.Au.signInWithRedirect(f.auth,g):Promise.reject(e))});
  $("#ain").onclick=()=>run(()=>f.Au.signInWithEmailAndPassword(...cred()));
