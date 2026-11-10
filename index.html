@@ -59,6 +59,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--y);outline-offs
 .st,.tier{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;text-align:left;color:inherit;transition:transform .15s,border-color .15s}
 .tier{cursor:pointer}.tier:hover{transform:translateY(-4px);border-color:var(--y)}.n{color:var(--y);font-size:14px}.st b,.tier b{display:block;font-size:22px;margin:8px 0}.st p,.tier p{color:var(--mute);margin:0;line-height:1.5;font-size:15px}.tier .w{font-size:22px;color:var(--y);margin-top:12px;display:block}
 .rv{opacity:0;transform:translateY(26px);transition:opacity .6s,transform .6s}.rv.in{opacity:1;transform:none}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);padding:0}.sw.on{border-color:var(--ink);outline:2px solid var(--y)}.brow{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}#bprev{display:grid;place-items:center;background:#f6f1e3;border-radius:18px;padding:14px;margin:12px 0}
 details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px;max-width:760px}summary{cursor:pointer;font-weight:700;font-size:18px}details[open]{border-color:var(--y)}details p{color:var(--mute);margin:10px 0 0;line-height:1.5}#lb{max-width:560px}#sh{margin-top:10px}
 .fin{text-align:center}.fin p{color:var(--mute);font-size:18px;margin:0 0 22px}.fin .cta{justify-content:center}
 footer{border-top:1px solid var(--line);padding:26px 5vw;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}footer .brand{font-size:16px;color:var(--ink)}footer .brand svg{width:24px;height:24px}
@@ -66,11 +67,11 @@ footer{border-top:1px solid var(--line);padding:26px 5vw;color:var(--mute);font-
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute"><symbol id="bee" viewBox="0 0 100 100"><circle cx="50" cy="56" r="29" fill="#FDB800"/><clipPath id="bc"><circle cx="50" cy="56" r="29"/></clipPath><g clip-path="url(#bc)"><rect x="0" y="54" width="100" height="10"/><rect x="0" y="75" width="100" height="40"/></g><circle cx="50" cy="56" r="29" fill="none" stroke="#000" stroke-width="3.6"/><path d="M30 32l7 9M70 33l-7 7" stroke="#000" stroke-width="3.6" stroke-linecap="round"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute"><symbol id="bee" viewBox="14 14 72 72"><circle cx="50" cy="50" r="31" fill="#FDB800"/><clipPath id="bc"><circle cx="50" cy="50" r="31"/></clipPath><g clip-path="url(#bc)"><rect x="0" y="49.5" width="100" height="10"/><rect x="0" y="64.4" width="100" height="40"/></g><circle cx="50" cy="50" r="31" fill="none" stroke="#000" stroke-width="4"/><path d="M28.5 28L22.8 21.3M71.5 28L77.1 22.5" stroke="#000" stroke-width="3.6" stroke-linecap="round"/></symbol></svg>
 <div class="top">the hive is open. make a room, share the code, start stinging.</div>
 <header>
  <div class="brand"><svg><use href="#bee"/></svg>Beez</div>
- <div class="nav"><button id="how">How to play</button><button id="acct">sign in</button><button id="mute">sound on</button><button id="theme" aria-label="Toggle theme">theme</button></div>
+ <div class="nav"><button id="how">How to play</button><button id="acct">sign in</button><button id="mybee">mybee</button><button id="mute">sound on</button><button id="theme" aria-label="Toggle theme">theme</button></div>
 </header>
 <main>
  <section>
@@ -160,6 +161,10 @@ footer{border-top:1px solid var(--line);padding:26px 5vw;color:var(--mute);font-
 <input class="f" id="aem" type="email" placeholder="email" autocomplete="email" style="margin-bottom:8px"><input class="f" id="apw" type="password" placeholder="password" autocomplete="current-password">
 <div class="row" style="margin-top:10px"><button class="chip" id="ain">sign in</button><button class="chip" id="acr">create account</button></div>
 <div class="fb" id="aerr" style="color:var(--bad);font-size:13px"></div><button class="btn" style="background:var(--y);color:#000" onclick="adlg.close()">close</button></dialog>
+<dialog id="bdlg"><b style="font-size:20px">mybee</b><p style="margin:6px 0 0">build your character. it shows up next to your name in rooms.</p>
+<div id="bprev"></div><div class="lbl" style="margin:0">color</div><div class="brow" id="bcol"></div>
+<div class="lbl" style="margin:0">accessory</div><div class="brow" id="bacc"></div><div class="lbl" style="margin:0">eyes</div><div class="brow" id="bfac"></div>
+<button class="big" id="bsave" style="margin-top:6px">save mybee</button></dialog>
 <dialog id="dlg"><b style="font-size:20px">How to play</b><p>Press play and listen to the word. Type it letter by letter, then hit Enter. Correct answers earn 100 points plus a speed bonus.</p><p>In multiplayer, everyone gets the same words at the same time. Create a room, share the 4-letter code, and the host starts the round.</p><button class="btn" style="background:var(--y);color:#000" onclick="dlg.close()">Got it</button></dialog>
 <script>
 const FB_CONFIG={apiKey:"AIzaSyC3Xnc3Cc63B8v1nLPONlP5Up_FbGrdon4",authDomain:"beez-7c6a4.firebaseapp.com",databaseURL:"https://beez-7c6a4-default-rtdb.firebaseio.com",projectId:"beez-7c6a4",storageBucket:"beez-7c6a4.firebasestorage.app",messagingSenderId:"928305285561",appId:"1:928305285561:web:b9b46a0eebecdbd13f8e68",measurementId:"G-YZKBTPM6G0"};
@@ -249,16 +254,16 @@ function finish(ok,msg){if(G.done)return;G.done=true;clearInterval(tick);$("#in"
  G.pts+=pts;if(ok)G.ok++;$("#ps").textContent=G.pts;
  $("#wd").querySelectorAll(".wl").forEach((e,k)=>{e.textContent=G.word[k];e.className="wl "+(ok?"ok":"bad")});
  $("#fb").style.color=ok?"var(--ok)":"var(--bad)";$("#fb").textContent=ok?"sweet! +"+pts+(G.streak>1?" · "+G.streak+" in a row":""):(msg||"Not quite")+". it was “"+G.word+"”";
- scores.me={name:P.name,pts:G.pts};renderLive();
- if(G.multi){R&&R.emit("ans",{i:G.i,name:P.name,pts:G.pts});markAns(G.i,"me")}
+ scores.me={name:P.name,pts:G.pts,bee:MY};renderLive();
+ if(G.multi){R&&R.emit("ans",{i:G.i,name:P.name,pts:G.pts,bee:MY});markAns(G.i,"me")}
  else setTimeout(()=>G.i+1<G.words.length?round(G.i+1):endGame(),1500)}
 function renderLive(){const el=$("#live");if(!G||!G.multi){el.innerHTML="";return}
- el.innerHTML=Object.values(scores).sort((a,b)=>b.pts-a.pts).map(s=>`<div><span>${esc(s.name)}</span><b class="mono">${s.pts}</b></div>`).join("")}
+ el.innerHTML=Object.values(scores).sort((a,b)=>b.pts-a.pts).map(s=>`<div><span style="display:flex;align-items:center;gap:8px">${beeSvg(s.bee,22)}${esc(s.name)}</span><b class="mono">${s.pts}</b></div>`).join("")}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function endGame(){clearInterval(tick);clearTimeout(hostT);stats.g++;stats.b=Math.max(stats.b,G.pts);stats.h.push({p:G.pts,ok:G.ok,n:G.words.length,d:P.diff});stats.h=stats.h.sort((a,b)=>b.p-a.p).slice(0,5);saveStats();$("#sh").textContent="copy result";view("end");
  const top=G.multi?Object.values(scores).sort((a,b)=>b.pts-a.pts)[0]:null;$("#et").textContent=G.multi?(top?top.name+" wins":"round over"):"nice buzzing";
  $("#es").textContent=G.ok+" of "+G.words.length+" correct · "+G.pts+" points";
- $("#er").innerHTML=G.multi?Object.values(scores).sort((a,b)=>b.pts-a.pts).map((s,k)=>`<div><span>${k+1+"."} ${esc(s.name)}</span><b class="mono">${s.pts}</b></div>`).join(""):""}
+ $("#er").innerHTML=G.multi?Object.values(scores).sort((a,b)=>b.pts-a.pts).map((s,k)=>`<div><span>${k+1+"."} ${beeSvg(s.bee,22)} ${esc(s.name)}</span><b class="mono">${s.pts}</b></div>`).join(""):""}
 $("#again").onclick=()=>{R?(view("lobby"),lobby()):view("home")};
 function renderLb(){$("#lb").innerHTML=stats.h.length?stats.h.map((h,k)=>`<div><span>${k+1}. ${h.d} · ${h.ok}/${h.n} correct</span><b class="mono">${h.p}</b></div>`).join(""):"<div><span>no games yet. your first score lands here.</span></div>"}
 let mute=false,AC=null;
@@ -269,21 +274,34 @@ try{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.
 $("#mute").onclick=()=>{mute=!mute;$("#mute").textContent=mute?"sound off":"sound on"};
 $("#sh").onclick=async()=>{try{await navigator.clipboard.writeText("beez: "+G.ok+"/"+G.words.length+" correct, "+G.pts+" points ("+P.diff+"). outspell the hive.");$("#sh").textContent="copied"}catch(e){$("#sh").textContent="copy failed"}};
 function showStats(){const g=dbOn?tot.g:stats.g,w=dbOn?tot.w:stats.w;$("#sg").textContent=g.toLocaleString();$("#sw").textContent=w.toLocaleString()}
-function push(){try{mine&&mine.set({g:stats.g,w:stats.w}).catch(()=>{})}catch(e){}}
+function push(){try{mine&&mine.set({g:stats.g,w:stats.w,bee:MY}).catch(()=>{})}catch(e){}}
 (async()=>{try{const db=await claude.use("db"),user=await claude.use("user");if(!db||!user)return;const col=db.collection("players");mine=col.doc(await user.id());col.onSnapshot(s=>{let g=0,w=0;s.docs.forEach(d=>{const v=d.data()||{};g+=+v.g||0;w+=+v.w||0});tot={g,w};dbOn=true;showStats()},()=>{});push()}catch(e){}})();
 (async()=>{try{const room=await claude.use("room");if(!room||!room.join)return;const L=await room.join("lobby");L.onPeers(c=>{$("#sp").textContent=Math.max(1,c.peers.length)});await L.presence({here:1})}catch(e){}})();
+let MY={c:0,a:0,f:0};try{const m=JSON.parse(localStorage.getItem("beez_my")||"null");if(m)MY={c:+m.c||0,a:+m.a||0,f:+m.f||0}}catch(e){}
+let bid=0;const BC=["#FDB800","#ff7a59","#4ade80","#60a5fa","#c084fc","#f472b6","#f6f1e3","#2dd4bf"],BA=["none","crown","glasses","cap","bowtie","headband"],BF=["dots","happy","wink","shades"];
+function beeSvg(b,s){b=b||{c:0,a:0,f:0};const id="bc"+(bid++),c=BC[b.c]||BC[0],L='stroke="#000" stroke-width="2.6" stroke-linecap="round" fill="none"';
+const F=['<circle cx="41" cy="46" r="3"/><circle cx="59" cy="46" r="3"/>','<path d="M36 47q5-7 10 0M54 47q5-7 10 0" '+L+'/>','<circle cx="41" cy="46" r="3"/><path d="M54 47q5-6 10 0" '+L+'/>','<rect x="33" y="41" width="15" height="9" rx="2"/><rect x="52" y="41" width="15" height="9" rx="2"/><path d="M48 45h4" '+L+'/>'][b.f]||"";
+const A=["",'<path d="M33 31l4-13 7 8 6-12 6 12 7-8 4 13z" fill="#f6f1e3" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>','<circle cx="41" cy="46" r="7.5" '+L+'/><circle cx="59" cy="46" r="7.5" '+L+'/><path d="M48.5 46h3" '+L+'/>','<path d="M30 38q20-24 40 0z" fill="#e11d48" stroke="#000" stroke-width="2.5"/><path d="M66 38h13" stroke="#000" stroke-width="4" stroke-linecap="round"/>','<path d="M50 80l-10-6v12zM50 80l10-6v12z" fill="#e11d48" stroke="#fff" stroke-width="2"/>','<path d="M27 38h46" stroke="#e11d48" stroke-width="5"/>'][b.a]||"";
+return '<svg viewBox="8 6 84 84" width="'+s+'" height="'+s+'" aria-hidden="true"><clipPath id="'+id+'"><circle cx="50" cy="50" r="31"/></clipPath><circle cx="50" cy="50" r="31" fill="'+c+'"/><g clip-path="url(#'+id+')"><rect x="0" y="49.5" width="100" height="10"/><rect x="0" y="64.4" width="100" height="40"/></g><circle cx="50" cy="50" r="31" fill="none" stroke="#000" stroke-width="4"/><path d="M28.5 28L22.8 21.3M71.5 28L77.1 22.5" stroke="#000" stroke-width="3.6" stroke-linecap="round"/><g transform="translate(50 50) scale(1.07) translate(-50 -56)"><g fill="#000">'+F+'</g>'+A+'</g></svg>'}
+function drawMy(){$("#bprev").innerHTML=beeSvg(MY,150);
+ $("#bcol").innerHTML=BC.map((c,i)=>`<button class="sw${i==MY.c?" on":""}" data-k="c" data-v="${i}" style="background:${c}" aria-label="color ${i+1}"></button>`).join("");
+ $("#bacc").innerHTML=BA.map((a,i)=>`<button class="chip${i==MY.a?" on":""}" data-k="a" data-v="${i}">${a}</button>`).join("");
+ $("#bfac").innerHTML=BF.map((a,i)=>`<button class="chip${i==MY.f?" on":""}" data-k="f" data-v="${i}">${a}</button>`).join("")}
+$("#bdlg").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;MY[b.dataset.k]=+b.dataset.v;drawMy()};
+$("#mybee").onclick=()=>{drawMy();$("#bdlg").showModal()};
+$("#bsave").onclick=()=>{try{localStorage.setItem("beez_my",JSON.stringify(MY))}catch(e){}push();$("#bdlg").close()};
 // ---------- multiplayer ----------
 function lobby(){$("#st").classList.toggle("hide",!isHost);$("#lw").textContent=isHost?"":"Waiting for the host to start…";
- $("#pl").innerHTML=peers.map(p=>`<div><span>${esc((p.presence&&p.presence.name)||"Bee")}${p.isMe?" (you)":""}</span><span>${p.presence&&p.presence.host?"host":""}</span></div>`).join("")}
+ $("#pl").innerHTML=peers.map(p=>`<div><span style="display:flex;align-items:center;gap:8px">${beeSvg(p.presence&&p.presence.bee,22)}${esc((p.presence&&p.presence.name)||"Bee")}${p.isMe?" (you)":""}</span><span>${p.presence&&p.presence.host?"host":""}</span></div>`).join("")}
 async function enter(code,host){$("#merr").textContent="";
  try{const room=await claude.use("room");if(!room||!room.join){$("#adlg").showModal();return}
   R=await room.join("beez-"+code);isHost=host;$("#rc").textContent=code;
   R.onPeers(c=>{peers=[...c.peers];if(!$("#lobby").classList.contains("hide"))lobby()});
   R.on("start",m=>{if(!m.isMe)begin(m.data.words,m.data.ms,true)});
   R.on("round",m=>{if(!m.isMe&&G)round(m.data.i)});
-  R.on("ans",m=>{if(m.isMe||!G)return;scores[m.peer]={name:m.data.name,pts:m.data.pts};renderLive();markAns(m.data.i,m.peer)});
+  R.on("ans",m=>{if(m.isMe||!G)return;scores[m.peer]={name:m.data.name,pts:m.data.pts,bee:m.data.bee};renderLive();markAns(m.data.i,m.peer)});
   R.on("end",m=>{if(!m.isMe&&G)endGame()});
-  await R.presence({name:P.name,host});view("lobby");lobby()}
+  await R.presence({name:P.name,host,bee:MY});view("lobby");lobby()}
  catch(e){$("#merr").textContent="Couldn’t open that room. Try again.";R=null}}
 $("#mk").onclick=()=>enter(Array.from({length:4},()=>"ABCDEFGHJKMNPQRSTUVWXYZ"[Math.floor(Math.random()*23)]).join(""),true);
 $("#jn").onclick=()=>{const c=$("#cd").value.trim().toUpperCase();c.length===4?enter(c,false):$("#merr").textContent="Codes are 4 letters."};
