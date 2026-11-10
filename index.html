@@ -299,7 +299,7 @@ fb.then(f=>{
  const u=f&&f.auth.currentUser,btn=$("#acct"),err=$("#aerr");
  if(u){const n=(u.displayName||(u.email||"bee").split("@")[0]).slice(0,14);P.name=n;$("#nm").value=n;btn.textContent="sign out"}
  btn.onclick=()=>{if(u)f.Au.signOut(f.auth).then(()=>location.reload());else $("#adlg").showModal()};
- const run=p=>{if(!f){err.textContent="firebase isn’t set up yet. paste your config at the top of the script.";return}err.textContent="";p().then(()=>location.reload()).catch(e=>err.textContent=(e.code||"error").replace("auth/","").replace(/-/g," "))};
+ const run=p=>{if(!f){err.textContent="firebase isn’t set up yet. paste your config at the top of the script.";return}err.textContent="";p().then(()=>location.reload()).catch(e=>err.textContent=e.code==="auth/unauthorized-domain"?"unauthorized domain. add this exact host in firebase authorized domains: "+location.hostname:(e.code||"error").replace("auth/","").replace(/-/g," "))};
  const cred=()=>[f.auth,$("#aem").value.trim(),$("#apw").value];
  $("#agg").onclick=()=>run(()=>{const g=new f.Au.GoogleAuthProvider();return f.Au.signInWithPopup(f.auth,g).catch(e=>["auth/popup-blocked","auth/operation-not-supported-in-this-environment"].includes(e.code)?f.Au.signInWithRedirect(f.auth,g):Promise.reject(e))});
  $("#ain").onclick=()=>run(()=>f.Au.signInWithEmailAndPassword(...cred()));
