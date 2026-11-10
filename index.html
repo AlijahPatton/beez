@@ -162,7 +162,7 @@ footer{border-top:1px solid var(--line);padding:26px 5vw;color:var(--mute);font-
 <div class="fb" id="aerr" style="color:var(--bad);font-size:13px"></div><button class="btn" style="background:var(--y);color:#000" onclick="adlg.close()">close</button></dialog>
 <dialog id="dlg"><b style="font-size:20px">How to play</b><p>Press play and listen to the word. Type it letter by letter, then hit Enter. Correct answers earn 100 points plus a speed bonus.</p><p>In multiplayer, everyone gets the same words at the same time. Create a room, share the 4-letter code, and the host starts the round.</p><button class="btn" style="background:var(--y);color:#000" onclick="dlg.close()">Got it</button></dialog>
 <script>
-const FB_CONFIG={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",databaseURL:"https://YOUR_PROJECT-default-rtdb.firebaseio.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
+const FB_CONFIG={apiKey:"AIzaSyC3Xnc3Cc63B8v1nLPONlP5Up_FbGrdon4",authDomain:"beez-7c6a4.firebaseapp.com",databaseURL:"https://beez-7c6a4-default-rtdb.firebaseio.com",projectId:"beez-7c6a4",storageBucket:"beez-7c6a4.firebasestorage.app",messagingSenderId:"928305285561",appId:"1:928305285561:web:b9b46a0eebecdbd13f8e68",measurementId:"G-YZKBTPM6G0"};
 const FB_BASE="https://www.gstatic.com/firebasejs/10.14.1/";
 const fb=(async()=>{
  if(FB_CONFIG.apiKey.startsWith("YOUR"))return null;
@@ -276,7 +276,7 @@ function push(){try{mine&&mine.set({g:stats.g,w:stats.w}).catch(()=>{})}catch(e)
 function lobby(){$("#st").classList.toggle("hide",!isHost);$("#lw").textContent=isHost?"":"Waiting for the host to start…";
  $("#pl").innerHTML=peers.map(p=>`<div><span>${esc((p.presence&&p.presence.name)||"Bee")}${p.isMe?" (you)":""}</span><span>${p.presence&&p.presence.host?"host":""}</span></div>`).join("")}
 async function enter(code,host){$("#merr").textContent="";
- try{const room=await claude.use("room");if(!room||!room.join){$("#merr").textContent="sign in to play multiplayer.";return}
+ try{const room=await claude.use("room");if(!room||!room.join){$("#adlg").showModal();return}
   R=await room.join("beez-"+code);isHost=host;$("#rc").textContent=code;
   R.onPeers(c=>{peers=[...c.peers];if(!$("#lobby").classList.contains("hide"))lobby()});
   R.on("start",m=>{if(!m.isMe)begin(m.data.words,m.data.ms,true)});
