@@ -3,9 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>beez. outspell the hive</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='56' r='31' fill='%23000'/%3E%3Ccircle cx='50' cy='56' r='26' fill='%23FDB800'/%3E%3Crect x='20' y='54' width='60' height='10'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<title>beez. play</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='56' r='31' fill='%23000'/%3E%3Ccircle cx='50' cy='56' r='26' fill='%23FDB800'/%3E%3Crect x='20' y='54' width='60' height='10'/%3E%3C/svg%3E">
 <style>
 :root{--y:#FDB800;--bg:#0e0d0a;--bg2:#16140f;--card:#1a1812;--ink:#f6f1e3;--mute:#9b9585;--line:#2f2b20;--sh:rgba(253,184,0,.28);--onY:#0e0d0a;--ok:#4ade80;--bad:#f87171;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 [data-theme=light]{--bg:#fbfaf5;--bg2:#fff;--card:#fff;--ink:#14120c;--mute:#6f6a5b;--line:#e5e1d2;--sh:#14120c}
@@ -66,27 +64,17 @@ details{background:var(--card);border:1px solid var(--line);border-radius:14px;p
 .fin{text-align:center}.fin p{color:var(--mute);font-size:18px;margin:0 0 22px}.fin .cta{justify-content:center}
 footer{border-top:1px solid var(--line);padding:26px 5vw;color:var(--mute);font-size:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}footer .brand{font-size:16px;color:var(--ink)}footer .brand svg{width:24px;height:24px}
 @media(max-width:860px){.grid3,.grid4{grid-template-columns:1fr 1fr}main{grid-template-columns:1fr}.stats{gap:18px}}@media(max-width:520px){.grid3,.grid4{grid-template-columns:1fr}}
+a.big,a.ghost{display:inline-block;text-align:center;text-decoration:none;color:inherit}a.big{color:var(--onY)}a.tier{display:block;text-decoration:none}.hide{display:none!important}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><symbol id="bee" viewBox="14 14 72 72"><circle cx="50" cy="50" r="31" fill="#FDB800"/><clipPath id="bc"><circle cx="50" cy="50" r="31"/></clipPath><g clip-path="url(#bc)"><rect x="0" y="49.5" width="100" height="10"/><rect x="0" y="64.4" width="100" height="40"/></g><circle cx="50" cy="50" r="31" fill="none" stroke="#000" stroke-width="4"/><path d="M28.5 28L22.8 21.3M71.5 28L77.1 22.5" stroke="#000" stroke-width="3.6" stroke-linecap="round"/></symbol></svg>
-<div class="top">the hive is open. make a room, share the code, start stinging.</div>
 <header>
- <div class="brand"><svg><use href="#bee"/></svg>Beez</div>
- <div class="nav"><button id="how">How to play</button><button id="acct">sign in</button><a id="dashb" class="hide" href="dashboard">dashboard</a><button id="mybee">mybee</button><button id="mute">sound on</button><button id="theme" aria-label="Toggle theme">theme</button></div>
+ <a class="brand" href="../" style="color:inherit;text-decoration:none"><svg><use href="#bee"/></svg>Beez</a>
+ <div class="nav"><a href="../play/">play</a><a href="../dashboard/leaderboard/">leaderboard</a><a id="dashb" class="hide" href="../dashboard/">dashboard</a><button id="acct">sign in</button><button id="mybee">mybee</button><button id="mute">sound on</button><button id="theme" aria-label="Toggle theme">theme</button></div>
 </header>
-<main>
- <section>
-  <span class="pill">free spelling bee · live rooms · no signup</span>
-  <h1>Outspell<br>the <span class="tiles"><span class="t">H</span><span class="t">I</span><span class="t">V</span><span class="t">E</span></span>.</h1>
-  <p class="sub">Hear the word, type it before the buzzer, and race your friends in real time. Fastest correct speller takes the honey.</p>
-  <div class="cta"><button class="big" id="c1">play now</button><button class="ghost" id="c2">create a room</button></div>
-  <div class="stats"><div><b class="mono" id="sg">0</b><span>games played</span></div><div><b class="mono" id="sw">0</b><span>words spelled</span></div><div><b class="mono" id="sp">1</b><span>bees playing</span></div></div>
- </section>
-
-</main>
-<section class="sec" id="playsec" style="border-top:0;padding-top:0"><div class="cardwrap">
- <section class="card" id="card">
+<div class="cardwrap" style="max-width:900px;margin:0 auto;padding:6vh 5vw 2vh">
+<section class="card" id="card">
   <div id="home">
    <div class="daily"><svg><use href="#bee"/></svg><div><b>Quick Buzz</b><small>8 words · 20s each · jump right in</small></div><button class="btn" id="quick">play</button></div>
    <div class="pad">
@@ -128,37 +116,9 @@ footer{border-top:1px solid var(--line);padding:26px 5vw;color:var(--mute);font-
    <button class="big" id="again">Back to the hive</button>
   </div>
  </section>
-</div></section>
-<section class="sec" id="steps"><h2>how it works</h2><div class="grid3">
-<div class="st"><span class="n mono">01</span><b>listen</b><p>a word is read out loud. no spelling on screen, no hints. just your ears.</p></div>
-<div class="st"><span class="n mono">02</span><b>type</b><p>type it out and hit enter. faster correct answers earn a bigger speed bonus.</p></div>
-<div class="st"><span class="n mono">03</span><b>sting</b><p>share a four letter code and race your friends on the same words, with a live scoreboard.</p></div>
-</div></section>
-<section class="sec" id="tiers"><h2>pick your difficulty</h2><div class="grid4">
-<button class="tier" data-d="easy"><span class="n mono">easy</span><b>warm up</b><p>everyday words to get the wings moving.</p><span class="w mono">garden</span></button>
-<button class="tier" data-d="medium"><span class="n mono">medium</span><b>getting sticky</b><p>the words everyone second guesses.</p><span class="w mono">calendar</span></button>
-<button class="tier" data-d="hard"><span class="n mono">hard</span><b>real sting</b><p>silent letters and sneaky doubles.</p><span class="w mono">rhythm</span></button>
-<button class="tier" data-d="impossible"><span class="n mono">impossible</span><b>queen bee</b><p>only the hive elite make it through.</p><span class="w mono">onomatopoeia</span></button>
-</div></section>
-<section class="sec" id="feat"><h2>built for the hive</h2><div class="grid3">
-<div class="st"><b>live rooms</b><p>make a private room, share four letters, and everyone plays the same words at the same time.</p></div>
-<div class="st"><b>speed and streaks</b><p>answer fast for bonus points, then chain correct words to build a streak bonus.</p></div>
-<div class="st"><b>no signup</b><p>no accounts, no ads, no paywall. open the page and start spelling.</p></div>
-<div class="st"><b>reads every word</b><p>your device speaks each word out loud. tap hear again as many times as you need.</p></div>
-<div class="st"><b>phone friendly</b><p>big tiles, big buttons, and a layout that works on any screen size.</p></div>
-<div class="st"><b>dark by default</b><p>easy on the eyes late at night. flip to light mode any time from the top bar.</p></div>
-</div></section>
-<section class="sec" id="board"><h2>your best games</h2><div class="list" id="lb"></div></section>
-<section class="sec" id="faq"><h2>questions</h2>
-<details><summary>do i need an account?</summary><p>nope. just pick a mode and play. your best scores are saved on this device only.</p></details>
-<details><summary>how do rooms work?</summary><p>hit create a room to get a four letter code. your friends enter it under multiplayer, you press start, and everyone races through the same eight words.</p></details>
-<details><summary>how is scoring done?</summary><p>every correct word is worth 100 points. in timed games you get up to 50 more for answering quickly, and each word in a row adds a streak bonus.</p></details>
-<details><summary>i can’t hear the word</summary><p>check your volume and press hear again. words are read by your browser’s built in voice, so it needs a browser that supports speech.</p></details>
-</section>
-<section class="sec fin"><h2>ready to sting?</h2><p>no signup. no download. just words.</p><div class="cta"><button class="big" id="c3">play now</button><button class="ghost" id="c4">create a room</button></div></section>
-
-<footer><div class="brand"><svg><use href="#bee"/></svg>beez</div><span>outspell the hive.</span></footer>
-<dialog id="adlg"><b style="font-size:20px">your hive account</b><p>sign in to save scores, count toward the shared totals and play multiplayer.</p>
+</div>
+<section class="sec" style="padding-top:2vh" id="board"><h2>your best games</h2><div class="list" id="lb"></div></section>
+<dialog id="adlg"><b style="font-size:20px">your hive account</b><p>sign in to save your stats, open your dashboard and play multiplayer.</p>
 <button class="big" id="agg" style="margin:0 0 12px">continue with google</button>
 <input class="f" id="aem" type="email" placeholder="email" autocomplete="email" style="margin-bottom:8px"><input class="f" id="apw" type="password" placeholder="password" autocomplete="current-password">
 <div class="row" style="margin-top:10px"><button class="chip" id="ain">sign in</button><button class="chip" id="acr">create account</button></div>
@@ -167,9 +127,10 @@ footer{border-top:1px solid var(--line);padding:26px 5vw;color:var(--mute);font-
 <div id="bprev"></div><div class="lbl" style="margin:0">color</div><div class="brow" id="bcol"></div>
 <div class="lbl" style="margin:0">accessory</div><div class="brow" id="bacc"></div><div class="lbl" style="margin:0">eyes</div><div class="brow" id="bfac"></div>
 <button class="big" id="bsave" style="margin-top:6px">save mybee</button></dialog>
-<dialog id="dlg"><b style="font-size:20px">How to play</b><p>Press play and listen to the word. Type it letter by letter, then hit Enter. Correct answers earn 100 points plus a speed bonus.</p><p>In multiplayer, everyone gets the same words at the same time. Create a room, share the 4-letter code, and the host starts the round.</p><button class="btn" style="background:var(--y);color:#000" onclick="dlg.close()">Got it</button></dialog>
-<script src="shared.js"></script>
+<script>const ROOT="../"</script>
+<script src="../shared.js"></script>
 <script>
+
 const W={easy:"apple bridge garden friend yellow monkey orange pencil window cheese planet rabbit butter castle dragon".split(" "),
 medium:"necessary calendar separate tomorrow receive beautiful knowledge restaurant occasion address library exercise February grammar tomorrow".split(" "),
 hard:"accommodate conscience embarrass rhythm pharaoh millennium questionnaire silhouette perseverance bureaucracy mischievous entrepreneur".split(" "),
@@ -190,7 +151,6 @@ const saveStats=()=>{try{localStorage.setItem("beez",JSON.stringify(stats))}catc
 $("#nm").value=P.name;$("#nm").oninput=e=>P.name=e.target.value.trim()||"Bee";
 const view=id=>["home","lobby","play","end"].forEach(v=>$("#"+v).classList.toggle("hide",v!==id));
 $("#theme").onclick=()=>{const h=document.documentElement;h.dataset.theme=h.dataset.theme==="dark"?"light":"dark"};
-$("#how").onclick=()=>$("#steps").scrollIntoView({behavior:"smooth"});
 const toCard=()=>$("#card").scrollIntoView({behavior:"smooth",block:"center"});
 ["#c1","#c3"].forEach(s=>$(s).onclick=()=>{toCard();$("#quick").click()});
 ["#c2","#c4"].forEach(s=>$(s).onclick=()=>{view("home");tab("multi");toCard()});
@@ -240,10 +200,8 @@ $("#qt").onclick=()=>{clearInterval(tick);clearTimeout(hostT);try{speechSynthesi
 try{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});$$(".sec").forEach(s=>{s.classList.add("rv");io.observe(s)})}catch(e){}
 $("#mute").onclick=()=>{mute=!mute;$("#mute").textContent=mute?"sound off":"sound on"};
 $("#sh").onclick=async()=>{try{await navigator.clipboard.writeText("beez: "+G.ok+"/"+G.words.length+" correct, "+G.pts+" points ("+P.diff+"). outspell the hive.");$("#sh").textContent="copied"}catch(e){$("#sh").textContent="copy failed"}};
-function showStats(){const g=dbOn?tot.g:stats.g,w=dbOn?tot.w:stats.w;$("#sg").textContent=g.toLocaleString();$("#sw").textContent=w.toLocaleString()}
-function push(){try{mine&&mine.set({g:stats.g,w:stats.w,bee:MY}).catch(()=>{})}catch(e){}try{window.pushUser&&pushUser()}catch(e){}}
-(async()=>{try{const db=await claude.use("db"),user=await claude.use("user");if(!db||!user)return;const col=db.collection("players");mine=col.doc(await user.id());col.onSnapshot(s=>{let g=0,w=0;lbd=[];s.docs.forEach(d=>{const v=d.data()||{};g+=+v.g||0;w+=+v.w||0;lbd.push({id:d.id,name:v.name||"",w:+v.w||0,g:+v.g||0,bee:v.bee})});tot={g,w};dbOn=true;showStats();window.renderDash&&renderDash()},()=>{});push()}catch(e){}})();
-(async()=>{try{const room=await claude.use("room");if(!room||!room.join)return;const L=await room.join("lobby");L.onPeers(c=>{$("#sp").textContent=Math.max(1,c.peers.length)});await L.presence({here:1})}catch(e){}})();
+function showStats(){}
+function push(){try{pushPlayer()}catch(e){}try{window.pushUser&&pushUser()}catch(e){}}
 // ---------- multiplayer ----------
 function lobby(){$("#st").classList.toggle("hide",!isHost);$("#lw").textContent=isHost?"":"Waiting for the host to start…";
  $("#pl").innerHTML=peers.map(p=>`<div><span style="display:flex;align-items:center;gap:8px">${beeSvg(p.presence&&p.presence.bee,22)}${esc((p.presence&&p.presence.name)||"Bee")}${p.isMe?" (you)":""}</span><span>${p.presence&&p.presence.host?"host":""}</span></div>`).join("")}
@@ -265,21 +223,14 @@ function hostWatch(i,x=0){clearTimeout(hostT);hostT=setTimeout(()=>advance(i),20
 function markAns(i,id){if(!isHost)return;(answered[i]=answered[i]||new Set()).add(id);if(answered[i].size>=Math.max(1,peers.length))advance(i)}
 function advance(i){if(!isHost||adv[i])return;adv[i]=1;clearTimeout(hostT);
  setTimeout(()=>{if(i+1<G.words.length){R.emit("round",{i:i+1});round(i+1);hostWatch(i+1)}else{R.emit("end",{});endGame()}},1600)}
-</script>
-<script>
-fb.then(f=>{
- const u=f&&f.auth.currentUser,btn=$("#acct"),err=$("#aerr");
- if(u){let o=null;try{o=localStorage.getItem("beez_name")}catch(x){}const n=o||(u.displayName||(u.email||"bee").split("@")[0]).slice(0,14);P.name=n;$("#nm").value=n;btn.textContent="sign out";$("#dashb").classList.remove("hide");
-  const ref=f.D.ref(f.db,"users/"+u.uid);let ready=false;
-  window.pushUser=()=>{if(!ready)return;f.D.set(ref,{s:{g:stats.g,w:stats.w,b:stats.b,c:stats.c,m:stats.m,a:stats.a,bw:stats.bw,bs:stats.bs},hist:stats.hist}).catch(()=>{})};
-  f.D.get(ref).then(sn=>{const v=sn.val();if(v&&v.s&&(v.s.g||0)>=stats.g){Object.assign(stats,v.s);stats.hist=v.hist||[];stats.h=stats.hist.map(x=>({p:x.p,ok:x.ok,n:x.n,d:x.d})).sort((a,b)=>b.p-a.p).slice(0,5)}}).catch(()=>{}).finally(()=>{ready=true;saveStats();let go=false;try{go=sessionStorage.getItem("beez_dash");sessionStorage.removeItem("beez_dash")}catch(x){}if(go)location.href="dashboard"})}
- btn.onclick=()=>{if(u)f.Au.signOut(f.auth).then(()=>location.reload());else $("#adlg").showModal()};
- const run=p=>{if(!f){err.textContent="firebase isn’t set up yet. paste your config at the top of shared.js.";return}err.textContent="";try{sessionStorage.setItem("beez_dash","1")}catch(x){}p().then(()=>{try{sessionStorage.removeItem("beez_dash")}catch(x){}location.href="dashboard"}).catch(e=>{try{sessionStorage.removeItem("beez_dash")}catch(x){}err.textContent=e.code==="auth/unauthorized-domain"?"unauthorized domain. add this exact host in firebase authorized domains: "+location.hostname:(e.code||"error").replace("auth/","").replace(/-/g," ")})};
- const cred=()=>[f.auth,$("#aem").value.trim(),$("#apw").value];
- $("#agg").onclick=()=>run(()=>{const g=new f.Au.GoogleAuthProvider();return f.Au.signInWithPopup(f.auth,g).catch(e=>["auth/popup-blocked","auth/operation-not-supported-in-this-environment"].includes(e.code)?f.Au.signInWithRedirect(f.auth,g):Promise.reject(e))});
- $("#ain").onclick=()=>run(()=>f.Au.signInWithEmailAndPassword(...cred()));
- $("#acr").onclick=()=>run(()=>f.Au.createUserWithEmailAndPassword(...cred()));
-});
+
+const Q=new URLSearchParams(location.search);
+if(Q.get("d")&&document.querySelector(".chip[data-d='"+Q.get("d")+"']"))$(".chip[data-d='"+Q.get("d")+"']").click();
+if(location.hash==="#multi")tab("multi");
+if(Q.get("quick"))setTimeout(()=>$("#quick").click(),150);
+whenAuth.then(({u})=>{try{const s=JSON.parse(localStorage.getItem("beez")||"{}");["g","b","w","c","m","a","bw","bs"].forEach(k=>stats[k]=s[k]||0);stats.hist=s.hist||[];stats.h=s.h||[]}catch(e){}
+ if(u){let o=null;try{o=localStorage.getItem("beez_name")}catch(x){}P.name=o||(u.displayName||(u.email||"bee").split("@")[0]).slice(0,14);$("#nm").value=P.name}
+ saveStats()});
 </script>
 </body>
 </html>
