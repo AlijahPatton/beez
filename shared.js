@@ -32,7 +32,8 @@ window.claude={async use(n){
  if(n==="room")return{join:name=>fbRoom(f,name)};
  return null}};
 
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const DUM=new Proxy(function(){},{get:(t,k)=>k==="classList"?{add(){},remove(){},toggle(){},contains(){return false}}:k==="style"?{}:(k==="value"||k==="textContent"||k==="innerHTML")?"":k==="querySelectorAll"?()=>[]:DUM,set:()=>true,apply:()=>DUM});
+const $=s=>document.querySelector(s)||DUM,$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let MY={c:0,a:0,f:0};try{const m=JSON.parse(localStorage.getItem("beez_my")||"null");if(m)MY={c:+m.c||0,a:+m.a||0,f:+m.f||0}}catch(e){}
 let bid=0;const BC=["#FDB800","#ff7a59","#4ade80","#60a5fa","#c084fc","#f472b6","#f6f1e3","#2dd4bf"],BA=["none","crown","glasses","cap","bowtie","headband"],BF=["dots","happy","wink","shades"];
@@ -47,3 +48,27 @@ function drawMy(){$("#bprev").innerHTML=beeSvg(MY,150);
 $("#bdlg").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;MY[b.dataset.k]=+b.dataset.v;drawMy()};
 $("#mybee").onclick=()=>{drawMy();$("#bdlg").showModal()};
 $("#bsave").onclick=()=>{try{localStorage.setItem("beez_my",JSON.stringify(MY))}catch(e){}window.push&&push();$("#bdlg").close();window.renderDash&&renderDash()};
+
+async function pushPlayer(){try{const db=await claude.use("db"),user=await claude.use("user");if(!db||!user)return;const s=typeof stats!=="undefined"?stats:JSON.parse(localStorage.getItem("beez")||"{}");await db.collection("players").doc(await user.id()).set({g:s.g||0,w:s.w||0,b:s.b||0,bw:s.bw||0,bee:MY})}catch(e){}}
+function push(){return pushPlayer()}
+$("#theme").onclick=()=>{const h=document.documentElement;h.dataset.theme=h.dataset.theme==="dark"?"light":"dark"};
+const whenAuth=fb.then(async f=>{
+ const u=f&&f.auth.currentUser,btn=$("#acct"),err=$("#aerr");
+ if(u){btn.textContent="sign out";$("#dashb").classList.remove("hide")}
+ btn.onclick=()=>{if(u)f.Au.signOut(f.auth).then(()=>location.href=ROOT||"./");else $("#adlg").showModal()};
+ const run=p=>{if(!f){err.textContent="firebase isn’t set up yet. paste your config at the top of shared.js.";return}err.textContent="";try{sessionStorage.setItem("beez_dash","1")}catch(x){}p().then(()=>{try{sessionStorage.removeItem("beez_dash")}catch(x){}location.href=ROOT+"dashboard/"}).catch(e=>{try{sessionStorage.removeItem("beez_dash")}catch(x){}err.textContent=e.code==="auth/unauthorized-domain"?"unauthorized domain. add this exact host in firebase authorized domains: "+location.hostname:(e.code||"error").replace("auth/","").replace(/-/g," ")})};
+ const cred=()=>[f.auth,$("#aem").value.trim(),$("#apw").value];
+ $("#agg").onclick=()=>run(()=>{const g=new f.Au.GoogleAuthProvider();return f.Au.signInWithPopup(f.auth,g).catch(e=>["auth/popup-blocked","auth/operation-not-supported-in-this-environment"].includes(e.code)?f.Au.signInWithRedirect(f.auth,g):Promise.reject(e))});
+ $("#ain").onclick=()=>run(()=>f.Au.signInWithEmailAndPassword(...cred()));
+ $("#acr").onclick=()=>run(()=>f.Au.createUserWithEmailAndPassword(...cred()));
+ if(u){const ref=f.D.ref(f.db,"users/"+u.uid);let ready=false;
+  window.pushUser=()=>{if(!ready||typeof stats==="undefined")return;f.D.set(ref,{s:{g:stats.g,w:stats.w,b:stats.b,c:stats.c,m:stats.m,a:stats.a,bw:stats.bw,bs:stats.bs},hist:stats.hist}).catch(()=>{})};
+  try{const loc=JSON.parse(localStorage.getItem("beez")||"{}"),v=(await f.D.get(ref)).val();
+   if(v&&v.s&&(v.s.g||0)>(loc.g||0)){const m=Object.assign({},loc,v.s);m.hist=v.hist||[];m.h=m.hist.map(x=>({p:x.p,ok:x.ok,n:x.n,d:x.d})).sort((a,b)=>b.p-a.p).slice(0,5);localStorage.setItem("beez",JSON.stringify(m))}}catch(e){}
+  ready=true;
+  let go=false;try{go=sessionStorage.getItem("beez_dash");sessionStorage.removeItem("beez_dash")}catch(x){}if(go)location.href=ROOT+"dashboard/"}
+ return{f,u}});
+if(document.querySelector("#sg")){let loc={};try{loc=JSON.parse(localStorage.getItem("beez")||"{}")}catch(e){}
+ const show=(g,w)=>{$("#sg").textContent=g.toLocaleString();$("#sw").textContent=w.toLocaleString()};show(loc.g||0,loc.w||0);
+ (async()=>{try{const db=await claude.use("db");if(!db)return;db.collection("players").onSnapshot(s=>{let g=0,w=0;s.docs.forEach(d=>{const v=d.data()||{};g+=+v.g||0;w+=+v.w||0});show(g,w)},()=>{})}catch(e){}})()}
+(async()=>{try{const room=await claude.use("room");if(!room||!room.join)return;const L=await room.join("lobby");L.onPeers(c=>{$("#sp").textContent=Math.max(1,c.peers.length)});await L.presence({here:1})}catch(e){}})();
