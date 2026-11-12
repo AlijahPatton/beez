@@ -35,26 +35,65 @@ window.claude={async use(n){
 const DUM=new Proxy(function(){},{get:(t,k)=>k==="classList"?{add(){},remove(){},toggle(){},contains(){return false}}:k==="style"?{}:(k==="value"||k==="textContent"||k==="innerHTML")?"":k==="querySelectorAll"?()=>[]:DUM,set:()=>true,apply:()=>DUM});
 const $=s=>document.querySelector(s)||DUM,$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let MY={c:0,a:0,f:0};try{const m=JSON.parse(localStorage.getItem("beez_my")||"null");if(m)MY={c:+m.c||0,a:+m.a||0,f:+m.f||0}}catch(e){}
-let bid=0;const BC=["#FDB800","#ff7a59","#4ade80","#60a5fa","#c084fc","#f472b6","#f6f1e3","#2dd4bf"],BA=["none","crown","glasses","cap","bowtie","headband"],BF=["dots","happy","wink","shades"];
-function beeSvg(b,s){b=b||{c:0,a:0,f:0};const id="bc"+(bid++),c=BC[b.c]||BC[0],L='stroke="#000" stroke-width="2.6" stroke-linecap="round" fill="none"';
-const F=['<circle cx="41" cy="46" r="3"/><circle cx="59" cy="46" r="3"/>','<path d="M36 47q5-7 10 0M54 47q5-7 10 0" '+L+'/>','<circle cx="41" cy="46" r="3"/><path d="M54 47q5-6 10 0" '+L+'/>','<rect x="33" y="41" width="15" height="9" rx="2"/><rect x="52" y="41" width="15" height="9" rx="2"/><path d="M48 45h4" '+L+'/>'][b.f]||"";
-const A=["",'<path d="M33 31l4-13 7 8 6-12 6 12 7-8 4 13z" fill="#f6f1e3" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>','<circle cx="41" cy="46" r="7.5" '+L+'/><circle cx="59" cy="46" r="7.5" '+L+'/><path d="M48.5 46h3" '+L+'/>','<path d="M30 38q20-24 40 0z" fill="#e11d48" stroke="#000" stroke-width="2.5"/><path d="M66 38h13" stroke="#000" stroke-width="4" stroke-linecap="round"/>','<path d="M50 80l-10-6v12zM50 80l10-6v12z" fill="#e11d48" stroke="#fff" stroke-width="2"/>','<path d="M27 38h46" stroke="#e11d48" stroke-width="5"/>'][b.a]||"";
-return '<svg viewBox="8 6 84 84" width="'+s+'" height="'+s+'" aria-hidden="true"><clipPath id="'+id+'"><circle cx="50" cy="50" r="31"/></clipPath><circle cx="50" cy="50" r="31" fill="'+c+'"/><g clip-path="url(#'+id+')"><rect x="0" y="49.5" width="100" height="10"/><rect x="0" y="64.4" width="100" height="40"/></g><circle cx="50" cy="50" r="31" fill="none" stroke="#000" stroke-width="4"/><path d="M28.5 28L22.8 21.3M71.5 28L77.1 22.5" stroke="#000" stroke-width="3.6" stroke-linecap="round"/><g transform="translate(50 50) scale(1.07) translate(-50 -56)"><g fill="#000">'+F+'</g>'+A+'</g></svg>'}
-function drawMy(){$("#bprev").innerHTML=beeSvg(MY,150);
- $("#bcol").innerHTML=BC.map((c,i)=>`<button class="sw${i==MY.c?" on":""}" data-k="c" data-v="${i}" style="background:${c}" aria-label="color ${i+1}"></button>`).join("");
- $("#bacc").innerHTML=BA.map((a,i)=>`<button class="chip${i==MY.a?" on":""}" data-k="a" data-v="${i}">${a}</button>`).join("");
- $("#bfac").innerHTML=BF.map((a,i)=>`<button class="chip${i==MY.f?" on":""}" data-k="f" data-v="${i}">${a}</button>`).join("")}
-$("#bdlg").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;MY[b.dataset.k]=+b.dataset.v;drawMy()};
-$("#mybee").onclick=()=>{drawMy();$("#bdlg").showModal()};
-$("#bsave").onclick=()=>{try{localStorage.setItem("beez_my",JSON.stringify(MY))}catch(e){}window.push&&push();$("#bdlg").close();window.renderDash&&renderDash()};
-
+const BC=["#FDB800","#fde047","#a3e635","#4ade80","#2dd4bf","#22d3ee","#60a5fa","#818cf8","#c084fc","#f472b6","#ef4444","#ff7a59","#fb923c","#f6f1e3","#94a3b8","#3f3f46"],
+SC=["#000000","#1f2937","#7c2d12","#581c87","#1e3a8a","#14532d","#be123c","#f6f1e3"],
+BA=["none","crown","glasses","cap","bowtie","headband","party hat","halo","flower","headphones","top hat","wizard hat","mustache","eye patch","bandana"],
+BF=["dots","happy","wink","shades","sparkle","sleepy","angry","big eyes","hearts"],
+BM=["none","smile","grin","surprised","smirk","tongue"],
+BW=["none","round","pointy","tiny"],
+BT=["classic","balls","none"];
+const D0={c:0,ch:"",sc:0,f:0,m:1,a:0,w:0,t:0,k:0,g:0},LIM={c:BC.length,sc:SC.length,f:BF.length,m:BM.length,a:BA.length,w:BW.length,t:BT.length,k:2,g:2};
+function normBee(b){b=b||{};const o=Object.assign({},D0);for(const k in D0){if(k==="ch")o.ch=/^#[0-9a-f]{6}$/i.test(b.ch||"")?b.ch:"";else{o[k]=b[k]===undefined?D0[k]:(+b[k]||0);if(o[k]<0||o[k]>=LIM[k])o[k]=D0[k]}}return o}
+function loadMy(){try{const m=JSON.parse(localStorage.getItem("beez_my")||"null");if(m)return normBee(m)}catch(e){}return normBee(null)}
+let MY=loadMy(),bid=0;
+function beeSvg(b,s){b=normBee(b);const id="bz"+(bid++),c=b.ch||BC[b.c],k=SC[b.sc],L='stroke="#000" stroke-width="2.6" stroke-linecap="round" fill="none"',Y=(d,x)=>`<g transform="translate(${d} 0)">${x}</g>`;
+const star=x=>`<path transform="translate(${x} 42)" d="M0-6l1.7 4.3L6 0 1.7 1.7 0 6-1.7 1.7-6 0l4.3-1.7z"/>`,heart=x=>`<path transform="translate(${x} 43)" fill="#e11d48" d="M0 5C-7 0-8-5-4-6.2-2-6.8-.4-5.6 0-4.4.4-5.6 2-6.8 4-6.2 8-5 7 0 0 5z"/>`;
+const eyes=['<circle cx="41" cy="42" r="3.2"/><circle cx="59" cy="42" r="3.2"/>',`<path d="M36 43q5-7 10 0M54 43q5-7 10 0" ${L}/>`,`<circle cx="41" cy="42" r="3.2"/><path d="M54 43q5-6 10 0" ${L}/>`,`<rect x="33" y="37" width="15" height="9" rx="2"/><rect x="52" y="37" width="15" height="9" rx="2"/><path d="M48 41h4" ${L}/>`,star(41)+star(59),`<path d="M36 41q5 5 10 0M54 41q5 5 10 0" ${L}/>`,`<circle cx="41" cy="43" r="3"/><circle cx="59" cy="43" r="3"/><path d="M34 35l11 3.5M66 35l-11 3.5" ${L}/>`,'<circle cx="41" cy="42" r="6" fill="#fff" stroke="#000" stroke-width="1.6"/><circle cx="59" cy="42" r="6" fill="#fff" stroke="#000" stroke-width="1.6"/><circle cx="42.4" cy="43" r="3"/><circle cx="60.4" cy="43" r="3"/>',heart(41)+heart(59)][b.f]||"";
+const mouth=["",`<path d="M44 49q6 5 12 0" ${L}/>`,'<path d="M44 48.5h12q-1 4.5-6 4.5t-6-4.5z" fill="#fff" stroke="#000" stroke-width="1.6" stroke-linejoin="round"/>','<ellipse cx="50" cy="50.5" rx="2.6" ry="3"/>',`<path d="M45 51q5 2 11-2" ${L}/>`,`<path d="M44 49q6 5 12 0" ${L}/><path d="M48 51.5q2 4.5 4 0z" fill="#fb7185" stroke="#000" stroke-width="1.2"/>`][b.m]||"";
+const cheeks=b.k?'<ellipse cx="34" cy="47.5" rx="3.6" ry="2.2" fill="#ff6b81" opacity=".6"/><ellipse cx="66" cy="47.5" rx="3.6" ry="2.2" fill="#ff6b81" opacity=".6"/>':"";
+const petals=[0,72,144,216,288].map(r=>`<circle cx="0" cy="-5" r="3.6" fill="#f472b6" stroke="#000" stroke-width="1" transform="rotate(${r})"/>`).join("");
+const acc=["",'<path d="M33 31l4-13 7 8 6-12 6 12 7-8 4 13z" fill="#f6f1e3" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>',`<circle cx="41" cy="42" r="7.5" ${L}/><circle cx="59" cy="42" r="7.5" ${L}/><path d="M48.5 42h3" ${L}/>`,'<path d="M30 36q20-24 40 0z" fill="#e11d48" stroke="#000" stroke-width="2.5"/><path d="M66 36h13" stroke="#000" stroke-width="4" stroke-linecap="round"/>','<path d="M50 80l-10-6v12zM50 80l10-6v12z" fill="#e11d48" stroke="#fff" stroke-width="2"/>','<path d="M27 35h46" stroke="#e11d48" stroke-width="5"/>','<path d="M41 31L50 4l9 27z" fill="#a78bfa" stroke="#000" stroke-width="2.2" stroke-linejoin="round"/><circle cx="50" cy="4" r="3" fill="#fde047" stroke="#000" stroke-width="1.6"/>','<ellipse cx="50" cy="19" rx="14" ry="4" fill="none" stroke="#fde047" stroke-width="3.2"/>',`<g transform="translate(66 30)">${petals}<circle r="3" fill="#fde047" stroke="#000" stroke-width="1"/></g>`,'<path d="M31 44V38a19 19 0 0138 0v6" fill="none" stroke="#8b5cf6" stroke-width="4"/><rect x="25" y="38" width="8" height="14" rx="3" fill="#8b5cf6" stroke="#000" stroke-width="1.6"/><rect x="67" y="38" width="8" height="14" rx="3" fill="#8b5cf6" stroke="#000" stroke-width="1.6"/>','<path d="M30 29h40" stroke="#000" stroke-width="3" stroke-linecap="round"/><rect x="37" y="6" width="26" height="23" rx="2" fill="#4b5563" stroke="#000" stroke-width="2"/><rect x="37" y="22" width="26" height="4.5" fill="#e11d48"/>','<path d="M33 31L50 0l17 31z" fill="#6d28d9" stroke="#000" stroke-width="2.2" stroke-linejoin="round"/><path d="M27 31h46" stroke="#000" stroke-width="3.2" stroke-linecap="round"/><path transform="translate(50 17)" fill="#fde047" d="M0-5l1.5 3.6L5 -2 2.2 .4 3 4 0 2-3 4-2.2 .4-5-2l3.5-.4z"/>','<path d="M42 49q4-4 8 0q4-4 8 0q-4 4-8 1.5q-4 2.5-8-1.5z" fill="#3f2a1d" stroke="#000" stroke-width="1"/>','<circle cx="59" cy="42" r="7" fill="#111" stroke="#000" stroke-width="1.4"/><path d="M30 33L67 48" stroke="#111" stroke-width="2.4" stroke-linecap="round"/>','<path d="M29 37q21 9 42 0l-2 8q-19 7-38 0z" fill="#ef4444" stroke="#000" stroke-width="2"/><circle cx="40" cy="41" r="1.5" fill="#fff"/><circle cx="50" cy="43" r="1.5" fill="#fff"/><circle cx="60" cy="41" r="1.5" fill="#fff"/>'][b.a]||"";
+const wf="#e0f2fe",wing=[ "",`<ellipse cx="16" cy="42" rx="9" ry="15" transform="rotate(-22 16 42)" fill="${wf}" opacity=".9" stroke="#000" stroke-width="1.8"/><ellipse cx="84" cy="42" rx="9" ry="15" transform="rotate(22 84 42)" fill="${wf}" opacity=".9" stroke="#000" stroke-width="1.8"/>`,`<path d="M28 50Q6 40 12 14Q30 28 34 46z" fill="${wf}" opacity=".9" stroke="#000" stroke-width="1.8" stroke-linejoin="round"/><path d="M72 50Q94 40 88 14Q70 28 66 46z" fill="${wf}" opacity=".9" stroke="#000" stroke-width="1.8" stroke-linejoin="round"/>`,`<ellipse cx="19" cy="46" rx="5.5" ry="8.5" transform="rotate(-22 19 46)" fill="${wf}" opacity=".9" stroke="#000" stroke-width="1.6"/><ellipse cx="81" cy="46" rx="5.5" ry="8.5" transform="rotate(22 81 46)" fill="${wf}" opacity=".9" stroke="#000" stroke-width="1.6"/>`][b.w]||"";
+const tip=b.t===2?"":`<path d="M28.5 28L22.8 21.3M71.5 28L77.1 22.5" stroke="${k}" stroke-width="3.6" stroke-linecap="round"/>`+(b.t===1?`<circle cx="22.2" cy="20.6" r="3.9" fill="${k}"/><circle cx="77.7" cy="21.9" r="3.9" fill="${k}"/>`:"");
+const glow=b.g?`<radialGradient id="${id}g"><stop offset="55%" stop-color="${c}" stop-opacity=".6"/><stop offset="100%" stop-color="${c}" stop-opacity="0"/></radialGradient><circle cx="50" cy="50" r="47" fill="url(#${id}g)"/>`:"";
+return '<svg viewBox="4 0 92 92" width="'+s+'" height="'+s+'" aria-hidden="true">'+glow+wing+'<clipPath id="'+id+'"><circle cx="50" cy="50" r="31"/></clipPath><circle cx="50" cy="50" r="31" fill="'+c+'"/><g clip-path="url(#'+id+')" fill="'+k+'"><rect x="0" y="49.5" width="100" height="10"/><rect x="0" y="64.4" width="100" height="40"/></g><circle cx="50" cy="50" r="31" fill="none" stroke="'+k+'" stroke-width="4"/>'+tip+'<g transform="translate(50 50) scale(1.07) translate(-50 -56)">'+cheeks+'<g fill="#000">'+eyes+mouth+'</g>'+acc+'</g></svg>'}
+(function(){const d=$("#bdlg");if(d===DUM)return;
+ d.innerHTML=`<b style="font-size:22px">mybee</b><p style="margin:6px 0 0">build your character. it shows up next to your name in rooms.</p>
+<div id="bprev"></div>
+<div class="lbl" style="margin:0">body color</div><div class="brow" id="bcol"></div>
+<div class="lbl" style="margin:0">stripe and outline color</div><div class="brow" id="bstr"></div>
+<div class="lbl" style="margin:0">eyes</div><div class="brow" id="bfac"></div>
+<div class="lbl" style="margin:0">mouth</div><div class="brow" id="bmou"></div>
+<div class="lbl" style="margin:0">accessory</div><div class="brow" id="bacc"></div>
+<div class="lbl" style="margin:0">wings</div><div class="brow" id="bwng"></div>
+<div class="lbl" style="margin:0">antennae</div><div class="brow" id="bant"></div>
+<div class="lbl" style="margin:0">extras</div><div class="brow" id="bext"></div>
+<div class="row" style="margin-top:4px"><button class="chip" id="brnd">randomize</button><button class="chip" id="brst">reset</button></div>
+<button class="big" id="bsave" style="margin-top:12px">save mybee</button><button class="ghost" id="bcan" style="width:100%;margin-top:8px">cancel</button>`;
+ d.style.cssText+=";max-width:520px;width:calc(100% - 28px);max-height:92vh;overflow:auto"})();
+const chips=(id,arr,key)=>{$("#"+id).innerHTML=arr.map((a,i)=>`<button class="chip${i==MY[key]?" on":""}" data-k="${key}" data-v="${i}">${a}</button>`).join("")};
+const sws=(id,arr,key,off)=>{$("#"+id).innerHTML=arr.map((c,i)=>`<button class="sw${i==MY[key]&&!(off&&MY.ch)?" on":""}" data-k="${key}" data-v="${i}" style="background:${c}" aria-label="color ${i+1}"></button>`).join("")};
+function prevMy(){$("#bprev").innerHTML=beeSvg(MY,160)}
+function drawMy(){prevMy();sws("bcol",BC,"c",1);$("#bcol").insertAdjacentHTML("beforeend",`<label class="sw${MY.ch?" on":""}" style="background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red);position:relative;cursor:pointer" title="custom color"><input type="color" id="bcus" value="${MY.ch||BC[MY.c]}" style="opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer"></label>`);
+ sws("bstr",SC,"sc");chips("bfac",BF,"f");chips("bmou",BM,"m");chips("bacc",BA,"a");chips("bwng",BW,"w");chips("bant",BT,"t");
+ $("#bext").innerHTML=`<button class="chip${MY.k?" on":""}" data-t="k">blush</button><button class="chip${MY.g?" on":""}" data-t="g">glow</button>`}
+$("#bdlg").onclick=e=>{const t=e.target.closest("[data-t]");if(t){MY[t.dataset.t]=MY[t.dataset.t]?0:1;drawMy();return}const b=e.target.closest("[data-k]");if(!b)return;MY[b.dataset.k]=+b.dataset.v;if(b.dataset.k==="c")MY.ch="";drawMy()};
+$("#bdlg").addEventListener("input",e=>{if(e.target.id==="bcus"){MY.ch=e.target.value;prevMy()}});
+$("#bdlg").addEventListener("change",e=>{if(e.target.id==="bcus")drawMy()});
+const rnd=n=>Math.floor(Math.random()*n);
+$("#brnd").onclick=()=>{MY=normBee({c:rnd(BC.length),sc:rnd(SC.length),f:rnd(BF.length),m:rnd(BM.length),a:rnd(BA.length),w:rnd(BW.length),t:rnd(BT.length),k:rnd(2),g:rnd(2)});drawMy()};
+$("#brst").onclick=()=>{MY=normBee(null);drawMy()};
+$("#bcan").onclick=()=>{MY=loadMy();$("#bdlg").close()};
+$("#mybee").onclick=()=>{MY=loadMy();drawMy();$("#bdlg").showModal()};
+function toast(t){const d=document.createElement("div");d.textContent=t;d.style.cssText="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#FDB800;color:#000;font-weight:800;padding:10px 18px;border-radius:12px;z-index:99";document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
+$("#bsave").onclick=()=>{try{localStorage.setItem("beez_my",JSON.stringify(MY))}catch(e){}window.push&&push();window.saveBeeRemote&&saveBeeRemote();$("#bdlg").close();window.renderDash&&renderDash();toast("mybee saved")};
 async function pushPlayer(){try{const db=await claude.use("db"),user=await claude.use("user");if(!db||!user)return;const s=typeof stats!=="undefined"?stats:JSON.parse(localStorage.getItem("beez")||"{}");await db.collection("players").doc(await user.id()).set({g:s.g||0,w:s.w||0,b:s.b||0,bw:s.bw||0,bee:MY})}catch(e){}}
 function push(){return pushPlayer()}
 $("#theme").onclick=()=>{const h=document.documentElement;h.dataset.theme=h.dataset.theme==="dark"?"light":"dark"};
+$("#mybee").classList.add("hide");
 const whenAuth=fb.then(async f=>{
  const u=f&&f.auth.currentUser,btn=$("#acct"),err=$("#aerr");
- if(u){btn.textContent="sign out";$("#dashb").classList.remove("hide")}
+ if(u){btn.textContent="sign out";$("#dashb").classList.remove("hide");$("#mybee").classList.remove("hide")}
  btn.onclick=()=>{if(u)f.Au.signOut(f.auth).then(()=>location.href=ROOT||"./");else $("#adlg").showModal()};
  const run=p=>{if(!f){err.textContent="firebase isn’t set up yet. paste your config at the top of shared.js.";return}err.textContent="";try{sessionStorage.setItem("beez_dash","1")}catch(x){}p().then(()=>{try{sessionStorage.removeItem("beez_dash")}catch(x){}location.href=ROOT+"dashboard/"}).catch(e=>{try{sessionStorage.removeItem("beez_dash")}catch(x){}err.textContent=e.code==="auth/unauthorized-domain"?"unauthorized domain. add this exact host in firebase authorized domains: "+location.hostname:(e.code||"error").replace("auth/","").replace(/-/g," ")})};
  const cred=()=>[f.auth,$("#aem").value.trim(),$("#apw").value];
@@ -65,6 +104,8 @@ const whenAuth=fb.then(async f=>{
   window.pushUser=()=>{if(!ready||typeof stats==="undefined")return;f.D.set(ref,{s:{g:stats.g,w:stats.w,b:stats.b,c:stats.c,m:stats.m,a:stats.a,bw:stats.bw,bs:stats.bs},hist:stats.hist}).catch(()=>{})};
   try{const loc=JSON.parse(localStorage.getItem("beez")||"{}"),v=(await f.D.get(ref)).val();
    if(v&&v.s&&(v.s.g||0)>(loc.g||0)){const m=Object.assign({},loc,v.s);m.hist=v.hist||[];m.h=m.hist.map(x=>({p:x.p,ok:x.ok,n:x.n,d:x.d})).sort((a,b)=>b.p-a.p).slice(0,5);localStorage.setItem("beez",JSON.stringify(m))}}catch(e){}
+  window.saveBeeRemote=()=>{f.D.set(f.D.ref(f.db,"users/"+u.uid+"/bee"),MY).catch(()=>{})};
+  try{const bv=(await f.D.get(f.D.ref(f.db,"users/"+u.uid+"/bee"))).val();if(bv){MY=normBee(bv);try{localStorage.setItem("beez_my",JSON.stringify(MY))}catch(x){}}else saveBeeRemote()}catch(e){}
   ready=true;
   let go=false;try{go=sessionStorage.getItem("beez_dash");sessionStorage.removeItem("beez_dash")}catch(x){}if(go)location.href=ROOT+"dashboard/"}
  return{f,u}});
