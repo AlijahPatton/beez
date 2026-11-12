@@ -72,3 +72,4 @@ if(document.querySelector("#sg")){let loc={};try{loc=JSON.parse(localStorage.get
  const show=(g,w)=>{$("#sg").textContent=g.toLocaleString();$("#sw").textContent=w.toLocaleString()};show(loc.g||0,loc.w||0);
  (async()=>{try{const db=await claude.use("db");if(!db)return;db.collection("players").onSnapshot(s=>{let g=0,w=0;s.docs.forEach(d=>{const v=d.data()||{};g+=+v.g||0;w+=+v.w||0});show(g,w)},()=>{})}catch(e){}})()}
 (async()=>{try{const room=await claude.use("room");if(!room||!room.join)return;const L=await room.join("lobby");L.onPeers(c=>{$("#sp").textContent=Math.max(1,c.peers.length)});await L.presence({here:1})}catch(e){}})();
+document.head.appendChild(Object.assign(document.createElement("style"),{textContent:"a{color:inherit}a.big{color:var(--onY)}"}));
